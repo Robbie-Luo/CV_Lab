@@ -46,9 +46,9 @@ q(isnan(q)) = 0;
 % YOUR CODE GOES HERE
 % approximate second derivate by neighbor difference
 % and compute the Squared Errors SE of the 2 second derivatives SE
-[dpx,dpy]=gradient(p);
-[dqx,dqy]=gradient(q);
-SE=(dpy-dqx).*(dpy-dqx);
+[~,dpy]=gradient(p);
+[dqx,~]=gradient(q);
+ SE=(dpy-dqx).*(dpy-dqx);
 
 % ========================================================================
 

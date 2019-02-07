@@ -22,29 +22,28 @@ normal = zeros(h, w, 3);
 
 % =========================================================================
 % YOUR CODE GOES HERE
+% for each point in the image array
+%   stack image values into a vector i
+%   construct the diagonal matrix scriptI
+%   solve scriptI * scriptV * g = scriptI * i to obtain g for this point
+%   albedo at this point is |g|
+%   normal at this point is g / |g|
+
+
+
+% =========================================================================
 
 % Author:Robbie
 % Date:2-7-2019
-
-% for each point in the image array
-warning off
+% =========================================================================
 for x=1:h
     for y=1:w
-        %   stack image values into a vector i
-        i=reshape(image_stack(x,y,:),[],1);
-        %   construct the diagonal matrix scriptI
-        I_diag=diag(i);
-        %   solve scriptI * scriptV * g = scriptI * i to obtain g for this point
-        g=linsolve(I_diag*scriptV,I_diag*i);
-        %   albedo at this point is |g|
-        albedo(x,y,:)=norm(g);
-        %   normal at this point is g / |g|
-        normal(x,y,:)=g/norm(g);
+        i(x,y)=image_stack(x,y,:)
     end
-    
-% =========================================================================
-
 end
+
+
+
 
 end
 
