@@ -26,14 +26,14 @@ switch path_type
         % for each pixel in the left column of height_map
         %   height_value = previous_height_value + corresponding_q_value
         for m=2:h
-            height_map(m,1)=height_map(m-1,1)+q(m,1)
+            height_map(m,1)=height_map(m-1,1)+q(m,1);
         end   
         % for each row
         %   for each element of the row except for leftmost
         %       height_value = previous_height_value + corresponding_p_value
         for m=1:h
             for n=2:w
-                height_map(m,n)=height_map(m,n-1)+p(m,n)
+                height_map(m,n)=height_map(m,n-1)+p(m,n);
             end
         end
         % =================================================================
@@ -43,11 +43,11 @@ switch path_type
         % =================================================================
         % YOUR CODE GOES HERE
         for n=2:w
-            height_map(1,n)=height_map(1,n-1)+p(1,n)
+            height_map(1,n)=height_map(1,n-1)+p(1,n);
         end 
         for n=1:w
             for m=2:h
-                height_map(m,n)=height_map(m-1,n)+q(m,n)
+                height_map(m,n)=height_map(m-1,n)+q(m,n);
             end
         end
         % =================================================================
@@ -56,11 +56,26 @@ switch path_type
         
         % =================================================================
         % YOUR CODE GOES HERE
+        height_map1 = zeros(h, w);
+        height_map2 = zeros(h, w);
+        for m=2:h
+            height_map1(m,1)=height_map1(m-1,1)+q(m,1);
+        end   
+        for m=1:h
+            for n=2:w
+                height_map1(m,n)=height_map1(m,n-1)+p(m,n);
+            end
+        end
         
-        
-        
-        
-        
+        for n=2:w
+            height_map2(1,n)=height_map2(1,n-1)+p(1,n);
+        end 
+        for n=1:w
+            for m=2:h
+                height_map2(m,n)=height_map2(m-1,n)+q(m,n);
+            end
+        end
+        height_map=(height_map1+height_map2)./2;
         
 
         
