@@ -35,7 +35,11 @@ for x=1:h
         %   construct the diagonal matrix scriptI
         I_diag=diag(i);
         %   solve scriptI * scriptV * g = scriptI * i to obtain g for this point
-        g=linsolve(I_diag*scriptV,I_diag*i);
+        if shadow_trick == false
+            g=linsolve(scriptV,i);
+        else
+            g=linsolve(I_diag*scriptV,I_diag*i);
+        end
         %   albedo at this point is |g|
         albedo(x,y,:)=norm(g);
         %   normal at this point is g / |g|
