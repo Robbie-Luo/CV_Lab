@@ -1,4 +1,4 @@
-function show_results( albedo, normals, SE )
+function show_results( albedo, normals, SE)
 %SHOW_RESULTS display albedo, normal and computational errors
 
 [h, w, ~] = size(normals);
@@ -34,7 +34,6 @@ title('Normal Y-component');
 subplot(2, 3, 6);
 imshow(normal_img(:, :, 3));
 title('Normal Z-component');
-
 
 end
 
