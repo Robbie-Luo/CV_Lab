@@ -24,11 +24,9 @@ elseif strcmp(colorspace, 'rgb')
 elseif strcmp(colorspace, 'hsv')   
     % use the built-in function
     new_image = rgb2hsv(input_image);
-    imshow(new_image)
 elseif strcmp(colorspace, 'ycbcr')
     % use the built-in function
     new_image = rgb2ycbcr(input_image);
-    imshow(new_image)
 elseif strcmp(colorspace, 'gray')
     new_image = rgb2grays(input_image); % fill in this function
 else
@@ -38,6 +36,6 @@ else
     return;
 end
 
-visualize(new_image); % fill in this function
+visualize(new_image,colorspace); % fill in this function
 
 end

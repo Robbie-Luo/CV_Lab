@@ -5,7 +5,7 @@ R = input_image(:,:,1);
 G = input_image(:,:,2);
 B = input_image(:,:,3);
 
-n = input('Enter a number: ');
+n = input('1: lightness method. 2: average method. 3: output_image 4. Matlab rgb2gray. Enter a number:');
 
 switch n
     case 1
@@ -20,6 +20,7 @@ switch n
     case 4
         % built-in MATLAB function 
         output_image = rgb2gray(input_image);
+   
 end
 end
 

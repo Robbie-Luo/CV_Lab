@@ -10,6 +10,5 @@ b = B./(R+G+B);
 
 output_image = cat(3,r,g,b);
 
-imshow(output_image)
 end
 
