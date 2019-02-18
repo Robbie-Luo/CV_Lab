@@ -1,8 +1,6 @@
 function visualize(input_image,colorspace)
 if strcmp(colorspace, 'gray')
-    figure
-    imshow(input_image);
-    title(colorspace);
+    
 else
     figure
     subplot(2, 2, 1);

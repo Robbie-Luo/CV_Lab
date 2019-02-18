@@ -6,10 +6,10 @@ close all
 
 I = imread('peppers.png');
 
-% J = ConvertColorSpace(I,'opponent');
+J = ConvertColorSpace(I,'opponent');
  
 % close all
-J = ConvertColorSpace(I,'rgb');
+% J = ConvertColorSpace(I,'rgb');
 
 % close all
 % J = ConvertColorSpace(I,'hsv');
