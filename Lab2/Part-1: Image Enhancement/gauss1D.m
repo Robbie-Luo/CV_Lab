@@ -18,5 +18,5 @@ function G = gauss1D( sigma , kernel_size )
     G = sigma*sqrt(2*pi)*exp(-x.^2/(2*sigma.^2));
     
     % Normalise the results.
-    G = G./sum(G)
+    G = G./sum(G);
 end

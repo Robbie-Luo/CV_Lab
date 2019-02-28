@@ -5,5 +5,5 @@ function G = gauss2D( sigma , kernel_size )
     % 1-D gaussian kernel along y-axis.
     y=transpose(gauss1D(sigma, kernel_size));
     
-    G= y*x
+    G= y*x;
 end
