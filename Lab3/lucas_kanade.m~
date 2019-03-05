@@ -1,0 +1,31 @@
+image_id = 'synth';
+switch image_id
+    case 'synth'
+        img1 = imread('synth1.pgm');
+        img2 = imread('synth2.pgm');
+    case 'sphere'
+        img1 = imread('sphere1.ppm');
+        img2 = imread('sphere1.ppm');
+    otherwise
+        error("Image not found");
+end 
+
+[h,w]=size(img1);
+height= size(I, 1); %求出行
+width = size(I, 2); %求出列
+region_size = 256;  %区域宽高大小
+numRow = round(height/region_size);%图像在垂直方向能分成多少个大小为region_size
+numCol = round(width/region_size);%图像在水平方向能分成多少个大小为region_size
+I=imresize(I,[numRow*region_size,numCol*region_size]);%重新生成新的图像，以防止temp下标越界
+
+--------------------- 
+作者：jxlijunhao 
+来源：CSDN 
+原文：https://blog.csdn.net/jxlijunhao/article/details/18012545 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+
+
+subplot(1,2,1);imshow(img1);
+subplot(1,2,2);imshow(img2)
+%%Divide input images on non-overlapping regions, each region being 15 × 15.   
+
