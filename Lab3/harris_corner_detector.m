@@ -86,7 +86,7 @@ for x = 3:row-2
             if(H(x,y)<threshold)
                 H(x,y) = 0;
             else
-                corners = [corners; [x y]]
+                corners = [corners; [x y]];
                 r = 10;
                 th = 0:pi/100:2*pi;
                 yunit = r * cos(th) + x;
