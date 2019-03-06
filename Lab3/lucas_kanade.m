@@ -1,22 +1,8 @@
-clc;clear all;close all;
-image_id = 'sphere';
-switch image_id
-    case 'synth'
-        img1 = imread('synth1.pgm');
-        img2 = imread('synth2.pgm');
-    case 'sphere'
-        img1 = rgb2gray(imread('sphere1.ppm'));
-        img2 = rgb2gray(imread('sphere2.ppm'));
-    otherwise
-        error("Image not found");
-end 
-img1=im2double(img1);
-img2=im2double(img2);
-figure;
-subplot(1,2,1)
-imshow(img1);
-subplot(1,2,2)
-imshow(img2);
+function [] = lucas_kanade(image1,image2,region_size)
+
+img1=im2double(image1);
+img2=im2double(image2);
+
 %%Divide input images on non-overlapping regions, each region being 15 × 15.   
 [height,width]=size(img1);
 region_size = 15; 
@@ -24,11 +10,12 @@ numRow = floor(height/region_size);
 numCol = floor(width/region_size);
 img1=imresize(img1,[numRow*region_size,numCol*region_size]);
 img2=imresize(img2,[numRow*region_size,numCol*region_size]);
-
-t1 = numRow*region_size-(1:numRow)*region_size+1;
-t2 = numRow*region_size-(0:numRow-1)*region_size; 
+%%Define Regions
+t1 = (0:numRow-1)*region_size + 1; 
+t2 = (1:numRow)*region_size;
 t3 = (0:numCol-1)*region_size + 1; 
 t4 = (1:numCol)*region_size;
+
 k = 0;
 for i = 1 : numRow
     for j = 1 : numCol
@@ -39,7 +26,7 @@ for i = 1 : numRow
         Ix=reshape(Ix,[region_size*region_size,1]);
         Iy=reshape(Iy,[region_size*region_size,1]);
         A=[Ix Iy];
-        It=img2_sub-img1_sub;
+        It=img1_sub-img2_sub;
         b=reshape(It,[region_size*region_size,1]);
         v=inv(A'*A)*A'*b;
         Vx(i,j)=v(1);
@@ -47,5 +34,12 @@ for i = 1 : numRow
     end
 end
 figure;
-[X,Y] = meshgrid(1 : numRow ,1 : numCol);
-quiver(X,Y,Vx,Vy)
+% imshow(img1);
+imshow(image1)
+hold on
+offset=floor(region_size/2);
+X=1+offset:region_size:numRow*region_size+offset;
+Y=1+offset:region_size:numCol*region_size+offset;
+% [X,Y] = meshgrid(1 : numRow ,1 : numCol);
+quiver(X,Y,Vx,Vy,'r')
+end

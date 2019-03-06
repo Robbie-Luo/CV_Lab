@@ -1,31 +1,46 @@
-image_id = 'synth';
-switch image_id
-    case 'synth'
-        img1 = imread('synth1.pgm');
-        img2 = imread('synth2.pgm');
-    case 'sphere'
-        img1 = imread('sphere1.ppm');
-        img2 = imread('sphere1.ppm');
-    otherwise
-        error("Image not found");
-end 
+function [ H ] = lucas_kanade(image1,image2)
+img1=rgb2gray(image1);
+img2=rbg2gray(image2);
+img1=im2double(img1);
+img2=im2double(img2);
 
-[h,w]=size(img1);
-height= size(I, 1); %求出行
-width = size(I, 2); %求出列
-region_size = 256;  %区域宽高大小
-numRow = round(height/region_size);%图像在垂直方向能分成多少个大小为region_size
-numCol = round(width/region_size);%图像在水平方向能分成多少个大小为region_size
-I=imresize(I,[numRow*region_size,numCol*region_size]);%重新生成新的图像，以防止temp下标越界
-
---------------------- 
-作者：jxlijunhao 
-来源：CSDN 
-原文：https://blog.csdn.net/jxlijunhao/article/details/18012545 
-版权声明：本文为博主原创文章，转载请附上博文链接！
-
-
-subplot(1,2,1);imshow(img1);
-subplot(1,2,2);imshow(img2)
 %%Divide input images on non-overlapping regions, each region being 15 × 15.   
+[height,width]=size(img1);
+region_size = 15; 
+numRow = floor(height/region_size);
+numCol = floor(width/region_size);
+img1=imresize(img1,[numRow*region_size,numCol*region_size]);
+img2=imresize(img2,[numRow*region_size,numCol*region_size]);
 
+t1 = (0:numRow-1)*region_size + 1; 
+t2 = (1:numRow)*region_size;
+t3 = (0:numCol-1)*region_size + 1; 
+t4 = (1:numCol)*region_size;
+
+k = 0;
+for i = 1 : numRow
+    for j = 1 : numCol
+        k = k + 1;
+        img1_sub = img1(t1(i):t2(i), t3(j):t4(j), :);
+        img2_sub = img2(t1(i):t2(i), t3(j):t4(j), :);
+        [Ix,Iy]=gradient(img1_sub);
+        Ix=reshape(Ix,[region_size*region_size,1]);
+        Iy=reshape(Iy,[region_size*region_size,1]);
+        A=[Ix Iy];
+        It=img1_sub-img2_sub;
+        b=reshape(It,[region_size*region_size,1]);
+        v=inv(A'*A)*A'*b;
+        Vx(i,j)=v(1);
+        Vy(i,j)=v(2);
+    end
+end
+figure;
+% imshow(img1);
+imshow(image1)
+hold on
+offset=floor(region_size/2);
+X=1+offset:region_size:numRow*region_size+offset;
+Y=1+offset:region_size:numCol*region_size+offset;
+% [X,Y] = meshgrid(1 : numRow ,1 : numCol);
+quiver(X,Y,Vx,Vy,'r')
+end
