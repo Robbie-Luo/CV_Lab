@@ -1,4 +1,4 @@
-function [] = harris_corner_detector(img_path, blur_level, threshold, rotate, strength)
+function [corners] = harris_corner_detector(img_path, blur_level, threshold, rotate, strength)
 % imgRGB = imread("pingpong/0000.jpeg");
 imgRGB = imread(img_path);
 imgRGB = imrotate(imgRGB,rotate);
@@ -9,7 +9,7 @@ img = imgaussfilt(img,blur_level);
 
 img = rgb2gray(img);
 
-
+corners = [];
 % Calculate the direction both directions.
 
 Ix = edge(img,'sobel','vertical');
@@ -31,7 +31,6 @@ B =  conv2(Ix.* Iy ,G, 'same');
 % Compute the sum of products ie smoothing 
 
 H = (A.*C - B.^2) - 0.04*((A+C).^2);
-threshold = threshold;
 % Check for the Non-max suppression.
 
 [row, column] = size(H);
@@ -87,6 +86,7 @@ for x = 3:row-2
             if(H(x,y)<threshold)
                 H(x,y) = 0;
             else
+                corners = [corners; [x y]]
                 r = 10;
                 th = 0:pi/100:2*pi;
                 yunit = r * cos(th) + x;
