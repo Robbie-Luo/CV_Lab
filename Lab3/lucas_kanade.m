@@ -1,4 +1,4 @@
-function [Res] = lucas_kanade(image1,image2,region_size)
+function [X,Y,U,V] = lucas_kanade(image1,image2,region_size,corners)
 
 img1=im2double(image1);
 img2=im2double(image2);
@@ -39,5 +39,7 @@ hold on
 offset=floor(region_size/2);
 X=1+offset:region_size:numRow*region_size+offset;
 Y=1+offset:region_size:numCol*region_size+offset;
-quiver(X,Y,Res(:,:,1),Res(:,:,2),'r')
+U = Res(:,:,1);
+V = Res(:,:,2);
+quiver(X,Y,U,V,'r')
 end
