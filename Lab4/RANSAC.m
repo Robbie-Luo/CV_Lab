@@ -1,9 +1,9 @@
 % Create a function that performs the RANSAC algorithm as explained above. The function should return the best  % transformation found. For visualization, show the transformations from image1 to image2 and from
 % image2 to image1. Name your script as RANSAC.m.
 
-function [best_trans,best_count]=RANSAC(fa,fb)
+function [best_trans]=RANSAC(fa,fb)
 best_count=0;
-N=100;P=3;
+N=100;P=10;
 for n = 1:N
     perm=randperm(size(fa,2));
     xa=fa(1,perm(1:P));ya=fa(2,perm(1:P));
@@ -33,9 +33,4 @@ function [trans] = get_trans_params(xa,ya,xb,yb)
        b=[b;xb(i);yb(i)];
     end
     trans = pinv(A)*b;
-end
-
-function [x_t,y_t]=transform(x,y,trans)
-    x_t=trans(1,1)*x+trans(2,1)*y+trans(5,1);
-    y_t=trans(3,1)*x+trans(4,1)*y+trans(6,1);
 end
