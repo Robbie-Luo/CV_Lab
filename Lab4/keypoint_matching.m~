@@ -52,7 +52,7 @@ vl_demo_print('sift_match_1', 1) ;
 
 figure(2) ; clf ;
 % imagesc(cat(2, Ia, Ib)) ;
-imshow(cat[Ia Ib]) ;
+imshow(cat(2, Ia, Ib)) ;
 
 xa = fa(1,matches(1,:)) ;
 xb = fb(1,matches(2,:)) + size(Ia,2) ;
