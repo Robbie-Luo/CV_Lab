@@ -1,0 +1,34 @@
+% run('VLFEATROOT/toolbox/vl_setup')
+function [match_frames]=keypoint_matching(Ia,Ib)
+Ia=single(Ia);
+Ib=single(Ib);
+[fa, da] = vl_sift(Ia) ;
+[fb, db] = vl_sift(Ib) ;
+
+% subplot(1,2,1);
+% imshow("boat1.pgm");
+% hold on;
+% visualize_sift(fa,da);
+% 
+% subplot(1,2,2);
+% imshow("boat2.pgm");
+% hold on;
+% visualize_sift(fb,db)
+
+
+[matches, scores] = vl_ubcmatch(da, db) ;
+match_frames
+end
+
+
+function []=visualize_match(matches,fa,fb)
+    perm = randperm(size(matches,2)) ;
+    sel1 = matches(1,perm(1:10));
+    sel2 = matched(1,perm(1:10));
+    h1 = vl_plotframe(fa(:,sel)) ;
+    h2 = vl_plotframe(fa(:,sel)) ;
+    set(h1,'color','k','linewidth',3) ;
+    set(h2,'color','y','linewidth',2) ;
+end    
+    
+    
