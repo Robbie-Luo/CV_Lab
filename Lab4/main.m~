@@ -1,16 +1,13 @@
 clc;clear all;close all;
-N=50;P=10;
 Ia=im2double(imread("boat1.pgm"));
 Ib=im2double(imread("boat2.pgm"));
 [fa,fb]=keypoint_matching(Ia,Ib);
-[best_trans,best_count]=RANSAC(fa,fb,N,P)
+[best_trans,best_count]=RANSAC(fa,fb)
 % transform using imwarp
 T=[best_trans(1) best_trans(2) 0;
    best_trans(3) best_trans(4) 0;
-   0 best_trans(6) 1;]
-% T=[1 0 0;0 1 0;2 0 1]
-
-tform = affine2d([1 0 0; .5 1 0; 0 0 1]);
+   best_trans(5) best_trans(6) 1;]
+tform = affine2d(T);
 subplot(1,2,1)
 imshow(Ia)
 subplot(1,2,2)
