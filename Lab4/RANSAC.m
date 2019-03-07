@@ -3,7 +3,7 @@
 
 function [best_trans,best_count]=RANSAC(fa,fb)
 best_count=0;
-N=50;P=10;
+N=100;P=3;
 for n = 1:N
     perm=randperm(size(fa,2));
     xa=fa(1,perm(1:P));ya=fa(2,perm(1:P));

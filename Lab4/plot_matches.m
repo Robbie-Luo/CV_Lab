@@ -14,17 +14,13 @@ set(h1,'color','y','linewidth',3) ;
 fb(1,:) = fb(1,:) + size(Ia,2) ;
 h2 = vl_plotframe(fb(:,sel)) ;
 set(h2,'color','y','linewidth',3) ;
-
+hold on;
 [best_trans]=RANSAC(fa,fb)
-xt=[]
-yt=[]
 for s = sel
    [x_t,y_t]=transform(fa(1,s),fa(2,s),best_trans);
-   x_t=x_t+size(Ia,2);
-   xt=[xt x_t];
-   yt=[yt y_t];
-end
    scatter(x_t,y_t,'g')
+end
+
 xa = fa(1,sel) ;
 xb = fb(1,sel) ;
 ya = fa(2,sel) ;
