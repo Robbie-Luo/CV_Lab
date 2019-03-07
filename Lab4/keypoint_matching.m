@@ -1,4 +1,3 @@
-% run('VLFEATROOT/toolbox/vl_setup')
 function [fa_matches,fb_matches]=keypoint_matching(Ia,Ib)
     Ia=single(Ia);
     Ib=single(Ib);
