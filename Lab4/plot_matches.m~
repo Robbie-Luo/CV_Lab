@@ -1,8 +1,21 @@
 clc;clear all;close all;
 Ia=imread("boat1.pgm");
 Ib=imread("boat2.pgm");
-[fa_matched,fb_matches]=keypoint_matching(Ia,Ia
+[fa_matches,fb_matches]=keypoint_matching(Ia,Ib);
 
+perm=randperm(
+
+subplot(1,2,1)
+imshow(Ia);
+hold on;
+h1 = vl_plotframe(fa_matches(:,1:100)) ;
+set(h1,'color','y','linewidth',3) ;
+
+subplot(1,2,2)
+imshow(Ib);
+hold on;
+h1 = vl_plotframe(fb_matches(:,1:100)) ;
+set(h1,'color','y','linewidth',3) ;
 
 function []=visualize_sift(f,d)
     perm = randperm(size(f,2)) ;
