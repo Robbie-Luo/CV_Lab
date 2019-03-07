@@ -20,6 +20,15 @@ Iy = edge(img,'sobel','horizontal');
 
 Iy = Iy.*5; 
 
+figure
+subplot(2,2,1);
+imshow(Ix);
+title('Image derivatives Ix');
+
+subplot(2,2,2);
+imshow(Iy);
+title('Image derivatives Iy');
+
 G = fspecial('gaussian').*strength;
 [Gx,Gy] = gradient(G);
 
@@ -31,20 +40,14 @@ B =  conv2(Ix.* Iy ,G, 'same');
 % Compute the sum of products ie smoothing 
 
 H = (A.*C - B.^2) - 0.04*((A+C).^2);
+
 % Check for the Non-max suppression.
 
 [row, column] = size(H);
 
 % Plot fighures
 
-figure
-subplot(2,2,1);
-imshow(Ix);
-title('Image derivatives Ix');
 
-subplot(2,2,2);
-imshow(Iy);
-title('Image derivatives Iy');
 
 subplot(2,2,[3,4]);
 imshow(imgRGB);
