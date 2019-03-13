@@ -20,11 +20,6 @@ h2 = vl_plotframe(fb(:,sel)) ;
 set(h2,'color','y','linewidth',3) ;
 hold on;
 [best_trans]=RANSAC(fa,fb);
-for s = sel
-   [x_t,y_t]=transform(fa(1,s),fa(2,s),best_trans);
-   scatter(x_t,y_t,'g')
-end
-
 % Connect matching pairs with lines.
 xa = fa(1,sel) ;
 xb = fb(1,sel) ;
@@ -42,41 +37,81 @@ Ib=imread("boat2.pgm");
 % Transformations from image1 to image2
 [best_trans]=RANSAC(fa,fb);
 figure(2);
-subplot(2,2,1)
-T=[best_trans(1) -best_trans(2) 0;
-   -best_trans(3) best_trans(4) 0;
-   best_trans(5) best_trans(6) 1;];
-tform = affine2d(T);
-Ia_t=imwarp(Ia,tform,'nearest');
+subplot(2,4,1)
+imshow(Ia);
+title("Image1");
+%transform using bulit-in function
+subplot(2,4,2)
+Ia_t=bulit_in_imwrap(Ia,best_trans);
 imshow(Ia_t);
-title("Image1 transformed");
-subplot(2,2,2)
-imshow(Ib)
+str = sprintf('bulit-in imwarp %d*%d', size(Ia_t,2),size(Ia_t,1));
+title(str);
+%transform using our imwarp function
+subplot(2,4,3)
+Ia_t=our_imwrap(Ia,best_trans);
+imshow(Ia_t);
+str = sprintf('our imwarp %d*%d', size(Ia_t,2),size(Ia_t,1));
+title(str);
+subplot(2,4,4)
+imshow(Ib);
 title("Image2");
 
 % Transformations from image2 to image1
 [best_trans]=RANSAC(fb,fa);
-figure(2);
-subplot(2,2,3)
-T=[best_trans(1) -best_trans(2) 0;
-   -best_trans(3) best_trans(4) 0;
-   best_trans(5) best_trans(6) 1;];
-tform = affine2d(T);
-Ib_t=imwarp(Ib,tform,'nearest');
+
+subplot(2,4,5)
+imshow(Ib);
+title("Image2");
+%transform using bulit-in function
+subplot(2,4,6)
+Ib_t=bulit_in_imwrap(Ib,best_trans);
 imshow(Ib_t);
-title("Image2 transformed")
-subplot(2,2,4)
-imshow(Ia)
+str = sprintf('bulit-in imwarp %d*%d', size(Ib_t,2),size(Ib_t,1));
+title(str);
+%transform using our imwarp function
+subplot(2,4,7)
+Ib_t=our_imwrap(Ib,best_trans);
+imshow(Ib_t);
+str = sprintf('our imwarp %d*%d', size(Ib_t,2),size(Ib_t,1));
+title(str);
+subplot(2,4,8)
+imshow(Ia);
 title("Image1");
 
 %% Image Stitching
-Ia=imread("left.jpg");
-Ib=imread("right.jpg");
+Ia=imread("boat1.pgm");
+Ib=imread("boat2.pgm");
 figure(3);
-subplot(1,3,1)
+subplot(2,2,1)
 imshow(Ia);
-subplot(1,3,2)
+title("boat1.pgm");
+subplot(2,2,2)
 imshow(Ib);
-subplot(1,3,3)
+title("boat2.pgm");
+subplot(2,2,3)
 I=stitch(Ia,Ib);
 imshow(I);
+title("boat1+boat2");
+subplot(2,2,4)
+I=stitch(Ib,Ia);
+imshow(I);
+title("boat2+boat1");
+
+Ia=imread("left.jpg");
+Ib=imread("right.jpg");
+figure(4);
+subplot(2,2,1)
+imshow(Ia);
+title("left.jpg");
+subplot(2,2,2)
+imshow(Ib);
+title("right.jpg");
+subplot(2,2,3)
+I=stitch(Ia,Ib);
+imshow(I);
+title("left+right");
+subplot(2,2,4)
+I=stitch(Ib,Ia);
+imshow(I);
+title("right+left");
+
