@@ -1,61 +1,25 @@
-% Making the image classifier script .
+% Testing 
 
-% Helping things
-%    imshow(reshape(X(7,:,:,:), 96, 96, 3))
+% take the test dataset, now X, Y are test sets  
+load('test.mat') ; 
+X = reshape(X, size(X,1), 96, 96, 3) ; 
+y = Y ; 
 
+n_test = 1000 ; 
+selection_test = randperm(size(X, 1), n_test) ; 
 
-%  Loading data 
-load('train.mat') ; 
-
-%  Reshaping the data
-X = reshape(X, 5000, 96, 96, 3) ; 
-y = y ; 
-
-% which colour space do you want 
-colour_space = 'rgb'; 
-
-% Load the feature descriptor, run only once 
-% run('VLFEATROOT/toolbox/vl_setup') ;
-
-%  Extract sift features (per channel==Approach 1)
-%    X_vocab = data used to get the centroids aka vocabulary 
-%    select randomly some pictures for vocabulary building
-n_vocab = 1000 ; 
-selection_vocab = randperm(size(X, 1), n_vocab) ; 
-X_vocab = X(selection_vocab, :, :, :) ; 
-X_vocab_kmeans = [] ;
-for i=1:size(X_vocab, 1)
-    descriptors = extract_features(reshape(X(i,:,:,:), 96, 96, 3), colour_space) ; 
-    X_vocab_kmeans = [X_vocab_kmeans, descriptors] ; 
-end 
-
-% Retrieve 'words' aka centroids 
-X_vocab_kmeans = double(X_vocab_kmeans) ; 
-[idx, centroids] = kmeans(X_vocab_kmeans', 400) ; 
-
-% get the 'histograms' for all the other images aka image words
-selection_train = setdiff(1:size(X,1), selection_vocab) ;
-% choose how many you want to use for training (e.g. svm)
-n_train = 1000 ; 
-selection_train = selection_train(1:n_train) ; 
-
-X_train = X(selection_train, :, :, :) ; 
-X_train_hist =  [] ;
+X_test = X(selection_test, :, :, :) ; 
+X_test_hist =  [] ;
 for i=1:size(X_train, 1)
-    img = reshape(X_train(i,:,:,:), 96, 96, 3) ;
+    img = reshape(X_test(i,:,:,:), 96, 96, 3) ;
     word_hist = get_image_words(img, centroids, colour_space) ; 
-    X_train_hist = [ X_train_hist; word_hist ] ;
+    X_test_hist = [X_test_hist; word_hist ] ;
 end
 
-X_train_batch = X_train_hist ; 
-y_trian_batch = y(selection_train) ; 
 
-% train a svm model
-svm_classifier = fitcecoc(X_train_batch, y_trian_batch) ; 
-
-
-
-
+% predict on the test set with svm model
+labels_pred = predict(svm_classifier, X_test_hist) ;
+confusionmat(y(selection_test), labels_pred) ; 
 
 function [word_hist] = get_image_words(I, C, colour_space)
 % comapre the descriptors from sift of the image I to the centroirds aka
@@ -126,6 +90,3 @@ function [I_op] = rgb2opponent(I)
     O3 = (R+G+B)./sqrt(3) ;
     I_op = [O1; O2; O3] ;
 end 
-
-
-
