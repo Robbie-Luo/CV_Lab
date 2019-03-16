@@ -2,7 +2,6 @@
 
 % load trained svm model and centroids
 load('train_output.mat') ;  
-clear y ; 
 
 % take the test dataset, now X, Y are test sets  
 load('test.mat') ;

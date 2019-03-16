@@ -52,7 +52,7 @@ X = X(mask,:,:,:) ;
 
 % Select some data for traing of a model (e.g. svm)
 n_train = 1000 ; 
-selection_train = randperm(size(X, 1), n_train)
+selection_train = randperm(size(X, 1), n_train) ;
 
 % Get the 'histograms' for all the other images aka image words
 %   - do it per image 
@@ -72,10 +72,6 @@ y_trian_batch = y(selection_train) ;
 svm_classifier = fitcecoc(X_train_batch, y_trian_batch) ; 
 
 % Save the data to then load in the test script 
-%   - delete X, Y coz then the test data has the same names
-clear X
-clear y
-
 save('train_output.mat', 'centroids', 'svm_classifier') ; 
 
 
