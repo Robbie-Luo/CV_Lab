@@ -24,7 +24,7 @@ colour_space = 'rgb';
 %  Extract SIFT features (per channel==Approach 1)
 %    X_vocab = data used to get the centroids aka vocabulary 
 %              - select randomly some pictures for visual vocabulary building
-n_vocab = 100 ; 
+n_vocab = 1000 ; 
 selection_vocab = randperm(size(X, 1), n_vocab) ; 
 
 X_vocab = X(selection_vocab, :, :, :) ; 
@@ -53,7 +53,7 @@ X = X(mask,:,:,:) ;
 y = y(mask) ;
 
 % Select some data for traing of a model (e.g. svm)
-n_train = 100 ;
+n_train = 1000 ;
 selection_train = randperm(size(X, 1), n_train) ;
 
 % Get the 'histograms' for all the other images aka image words
@@ -74,6 +74,6 @@ y_trian_batch = y(selection_train) ;
 svm_classifier = fitcecoc(X_train_batch, y_trian_batch) ; 
 
 % Save the data to then load in the test script 
-save('train_output.mat', 'centroids', 'svm_classifier') ; 
+save('train_output.mat', 'centroids', 'svm_classifier', 'colour_space') ; 
 
 

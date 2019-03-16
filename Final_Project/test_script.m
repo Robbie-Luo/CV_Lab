@@ -7,9 +7,8 @@ load('train_output.mat') ;
 load('test.mat') ;
 X = reshape(X, size(X,1), 96, 96, 3) ; 
 
-
 % Select how many pictures you want to classify 
-n_test = 100 ; 
+n_test = 1000 ; 
 selection_test = randperm(size(X, 1), n_test) ; 
 
 % Extract word histograms from the images
