@@ -24,7 +24,7 @@ colour_space = 'rgb';
 %  Extract SIFT features (per channel==Approach 1)
 %    X_vocab = data used to get the centroids aka vocabulary 
 %              - select randomly some pictures for visual vocabulary building
-n_vocab = 1000 ; 
+n_vocab = 100 ; 
 selection_vocab = randperm(size(X, 1), n_vocab) ; 
 
 X_vocab = X(selection_vocab, :, :, :) ; 
@@ -41,17 +41,19 @@ centroids = create_vocabulary_kmeans(X_vocab_kmeans) ;
 % 
 % ** NOTE ** Now train a model for ony 5 classes 
 % 
-
+ 
 % Select all the images which were not used for creating vocab
-selection_train = setdiff(1:size(X,1), selection_vocab) ;
-X = X(selection_train, :, :, :) ; 
+selection_other = setdiff(1:size(X,1), selection_vocab) ;
+X = X(selection_other, :, :, :) ; 
+y = y(selection_other) ; 
 
 % Get only classes: airplanes(1), birds(2), ships(9), horses(7) and cars(3)
-mask = y( y == 1 | y==2 | y == 3 | y == 9 | y == 7) ; 
+mask = ( y == 1 | y==2 | y == 3 | y == 9 | y == 7) ; 
 X = X(mask,:,:,:) ;
+y = y(mask) ;
 
 % Select some data for traing of a model (e.g. svm)
-n_train = 1000 ; 
+n_train = 100 ;
 selection_train = randperm(size(X, 1), n_train) ;
 
 % Get the 'histograms' for all the other images aka image words
