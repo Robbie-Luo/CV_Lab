@@ -50,7 +50,7 @@ for i=1:size(classes, 2)
     avg_precisions{class} = sum(precisions) / sum(mask) ;
     
     figure(class)
-    stop_im = [imgs_sorted{class}(1,:,:,:), imgs_sorted{class}(2,:,:,:), imgs_sorted{class}(3,:,:,:), imgs_sorted{class}(4,:,:,:), imgs_sorted{class}(5,:,:,:)] ;
+    top_im = [imgs_sorted{class}(1,:,:,:), imgs_sorted{class}(2,:,:,:), imgs_sorted{class}(3,:,:,:), imgs_sorted{class}(4,:,:,:), imgs_sorted{class}(5,:,:,:)] ;
     imshow(reshape(top_im, 480, 96, 3)) ; 
    
     figure(class*2)
