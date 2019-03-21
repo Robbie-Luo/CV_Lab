@@ -20,8 +20,8 @@ y_all = y ;
 % define some global variables 
 colour_space = 'rgb' ; 
 sampling_type = 'dense' ;
-n_vocab = 10  ;
-n_train = 10 ;
+n_vocab = 1000  ;
+n_train = 1000 ;
 n_clusters = 400 ;
 classes = [1, 2, 3, 7, 9] ; 
 
@@ -65,9 +65,11 @@ y_trian_batch = y(selection_train) ;
 
 models = {} ; 
 
-for class=1:size(classes, 2)
- 
-    % binary label for the class
+for i=1:size(classes, 2)
+    
+    class = classes(i) ; 
+    
+    % binary target
     y = y_trian_batch == class ;
     
     % train a model with some penalties, at least one class should be
