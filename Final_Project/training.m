@@ -9,12 +9,14 @@ clc;clear all;close all;
 
 data = load("train.mat");
 trainx = reshape(data.X, size(data.X,1), 96, 96, 3) ;
+trainx = trainx(1:1000, :,:,:) ; 
 trainy = reshape(data.y, 1, size(data.y,1)) ; 
+trainy = trainy(1, 1:1000) ; 
  
 % Set up global variables.
 subset_size = 100;
 class = [1,2,3,7,9];
-clusters = 600;
+clusters = 400;
 MaxIteration = 20000;
 
 % Take subset of training images and extract their SIFT descriptors.
@@ -24,7 +26,7 @@ MaxIteration = 20000;
 descriptors = RGB_SIFT(subset_x);
 
 % Perform K-means clustering.
-[points,centroids]=kmeans(double(descriptors'),clusters, 'MaxIter',MaxIteration);
+[points,centroids]=kmeans(double(descriptors'), clusters, 'MaxIter',MaxIteration);
 visual_vocabulary = centroids;
 
 %  Encoding Features Using Visual Vocabulary

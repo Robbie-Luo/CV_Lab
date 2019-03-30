@@ -16,17 +16,22 @@ descriptors = [];
 % Then the real descriptors are extracted at those locations from each color 
 % channel separately and concatenated.
 for i = 1:size(ImageSet,1)
-    I = single(rgb2gray(squeeze(ImageSet(i,:,:,:))));
-    [f,d] = vl_sift(I);
+    I = reshape(single(ImageSet(i,:,:,:)), 96, 96, 3);
+        
+%     [f,d] = vl_sift(I);
+%     % Extract descriptors form each channel seperately.      
+%     R = single(squeeze(ImageSet(i,:,:,1)));
+%     G = single(squeeze(ImageSet(i,:,:,2)));
+%     B = single(squeeze(ImageSet(i,:,:,3)));
+%     [R_frames,R_discriptor] = vl_sift(R, 'frames', f);
+%     [G_frames,G_discriptor] = vl_sift(G, 'frames', f);
+%     [B_frames,B_discriptor] = vl_sift(B, 'frames', f);
+    % Concatenate the descriptors from three channels.
     
-    % Extract descriptors form each channel seperately.      
-    R = single(squeeze(ImageSet(i,:,:,1)));
-    G = single(squeeze(ImageSet(i,:,:,2)));
-    B = single(squeeze(ImageSet(i,:,:,3)));
-    [R_frames,R_discriptor] = vl_sift(R, 'frames', f);
-    [G_frames,G_discriptor] = vl_sift(G, 'frames', f);
-    [B_frames,B_discriptor] = vl_sift(B, 'frames', f);
+    colour_space = 'rgb' ;
+    sampling_type = 'dense' ;
+
+    descriptors_image = extract_descriptors(I, colour_space, sampling_type) ; 
     
-    % Concatenate the descriptors from three channels.     
-    descriptors = cat(2,descriptors,R_discriptor,G_discriptor,B_discriptor);
+    descriptors = cat(2, descriptors, descriptors_image);
 end
