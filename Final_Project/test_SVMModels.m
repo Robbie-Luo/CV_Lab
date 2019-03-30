@@ -38,7 +38,7 @@ class_preds = {} ;
 eval_scores = {} ;
 
 avg_precisions = {} ; 
-classes = [1 2 3 7 9]
+classes = [1 2 3 7 9] ;
 class = 0;
 
 for i=1:size(classes, 2)

@@ -1,12 +1,16 @@
 run('VLFEATROOT/toolbox/vl_setup')
 clc;clear all;close all;
 
-data_x= load("trainx.mat");
-data_y = load("trainy.mat");
+% data_x= load("trainx.mat");
+% data_y = load("trainy.mat");
+% 
+% trainx = data_x.trainx;
+% trainy = data_y.trainy;
 
-trainx = data_x.trainx;
-trainy = data_y.trainy;
-
+data = load("train.mat");
+trainx = reshape(data.X, size(data.X,1), 96, 96, 3) ;
+trainy = reshape(data.y, 1, size(data.y,1)) ; 
+ 
 % Set up global variables.
 subset_size = 100;
 class = [1,2,3,7,9];
