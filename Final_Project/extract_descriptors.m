@@ -15,7 +15,7 @@ I_gray = rgb2gray(I) ;
 result_descriptors = [] ; 
 
 step = 7 ; 
-size_sift = 20 ; 
+size_sift = 15 ; 
 
 % gray and opponent colour spaces should be put explicitly, otherwise work with rgb 
 switch colour_space

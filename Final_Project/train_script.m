@@ -20,8 +20,8 @@ y_all = y ;
 % define some global variables 
 colour_space = 'rgb' ; 
 sampling_type = 'dense' ;
-n_vocab = 1000  ;
-n_train = 1000 ;
+n_vocab = 2500  ;
+n_train = 2500 ;
 n_clusters = 400 ;
 classes = [1, 2, 3, 7, 9] ; 
 
@@ -45,7 +45,7 @@ X = X(mask, :, :, :) ;
 y = y(mask) ;
 
 % Select some data for traing of a model (e.g. svm)
-selection_train = randperm(size(X, 1), n_train) ;
+selection_train = randperm(size(X_all, 1), n_train) ;
 
 % Get the 'histograms' for all the other images aka image words
 %   - do it per image 
@@ -54,11 +54,11 @@ X_train_hist =  [] ;
 for i=1:size(X_train, 1)
     img = reshape(X_train(i,:,:,:), 96, 96, 3) ;
     word_hist = get_word_hist(img, centroids, colour_space, sampling_type) ; 
-    X_train_hist = [ X_train_hist; word_hist ] ;
+    X_train_hist = [ X_train_hist, word_hist ] ;
 end
 
 % Do renaming, dont ask why :D
-X_train_batch = X_train_hist ; 
+X_train_batch = X_train_hist' ; 
 y_trian_batch = y(selection_train) ; 
 
 %  ------- ** NOTE: Train binary classifiers ** -------
