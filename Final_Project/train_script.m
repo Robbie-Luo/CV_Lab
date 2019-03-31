@@ -1,7 +1,7 @@
 % Making the image classifier script .
 
 % Load the feature descriptor, run only once 
-run('VLFEATROOT/toolbox/vl_setup') ;
+% run('VLFEATROOT/toolbox/vl_setup') ;
 warning ('off','all');
 
 % Helpers
@@ -35,7 +35,8 @@ centroids = create_vocabulary_kmeans(X_vocab_kmeans, n_clusters) ;
 %  ------- ** NOTE: Now train a model for ony 5 classes ** -------
 
 % Select all the images which were not used for creating vocab
-selection_other = setdiff(1:size(X,1), selection_vocab) ;
+%% 
+selection_other = setdiff(1:size(X_all,1), selection_vocab) ;
 X = X_all(selection_other, :, :, :) ; 
 y = y_all(selection_other) ; 
 
@@ -45,7 +46,11 @@ X = X(mask, :, :, :) ;
 y = y(mask) ;
 
 % Select some data for traing of a model (e.g. svm)
-selection_train = randperm(size(X_all, 1), n_train) ;
+if size(X,1) >= n_train
+    selection_train = randperm(size(X, 1), n_train) ;
+else
+    selection_train = randperm(size(X, 1), size(X,1)) ;
+end
 
 % Get the 'histograms' for all the other images aka image words
 %   - do it per image 

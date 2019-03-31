@@ -16,20 +16,21 @@ selection_test = randperm(size(X, 1), n_test) ;
 % Extract word histograms from the images
 X_test = X(selection_test, :, :, :) ; 
 X_test_hist =  [] ;
-for class=1:size(X_test, 1)
-    img = reshape(X_train(i,:,:,:), 96, 96, 3) ;
+for i=1:size(X_test, 1)
+    img = reshape(X_test(i,:,:,:), 96, 96, 3) ;
     word_hist = get_word_hist(img, centroids, colour_space, sampling_type) ; 
-    X_test_hist = [ X_train_hist, word_hist ] ;
+    X_test_hist = [ X_test_hist, word_hist ] ;
 end
 
 % Evaluate for each class 
 class_preds = {} ;
 eval_scores = {} ; 
 
+%% 
 X_test = X(selection_test, :,:,:) ;
-y_test = y(selection_tes_test_batch ;t) ;
+y_test = y(selection_test) ;
 
-X_test_batch = X_train_hist' ; 
+X_test_batch = X_test_hist' ; 
 y_test_batch = y_test ; 
 avg_precisions = {} ; 
 
@@ -65,6 +66,6 @@ for class=1:size(classes,2)
     class = classes(i) ; 
     pres = pres + avg_precisions{class} ; 
 end
-pres = pres/size(classes,2) ;
+pres = pres/size(classes) ;
 
 
