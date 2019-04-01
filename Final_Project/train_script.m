@@ -20,8 +20,8 @@ y_all = y ;
 % define some global variables 
 colour_space = 'rgb' ; 
 sampling_type = 'dense' ;
-n_vocab = 2500  ;
-n_train = 2500 ;
+n_vocab = 1000  ;
+n_train = 1000 ;
 n_clusters = 400 ;
 classes = [1, 2, 3, 7, 9] ; 
 
@@ -35,7 +35,7 @@ centroids = create_vocabulary_kmeans(X_vocab_kmeans, n_clusters) ;
 %  ------- ** NOTE: Now train a model for ony 5 classes ** -------
 
 % Select all the images which were not used for creating vocab
-%% 
+%% Getting data for training
 selection_other = setdiff(1:size(X_all,1), selection_vocab) ;
 X = X_all(selection_other, :, :, :) ; 
 y = y_all(selection_other) ; 
@@ -66,6 +66,7 @@ end
 X_train_batch = X_train_hist' ; 
 y_trian_batch = y(selection_train) ; 
 
+%% Training
 %  ------- ** NOTE: Train binary classifiers ** -------
 
 models = {} ; 
@@ -86,5 +87,28 @@ end
 % Save the data to then load in the test script 
 save('train_output.mat', 'centroids', 'models', 'colour_space', 'sampling_type', 'classes') ; 
  
+%% see if trained
 
+X_train = X_all(selection_train, :,:,:) ;
+y_train = y_all(selection_train) ;
+
+avg_precisions_train = {} ; 
+
+for i=1:size(classes, 2)
+    class = classes(i) ; 
+    
+    % get results of the model on the test set
+    [ class_preds{class}, eval_scores{class} ] = predict(models{class}, X_train_batch) ;
+    
+    % sorts images 
+    [~, indicies] = sort(eval_scores{class}(:, 1)) ;
+    imgs_sorted{class} = X_train(indicies,:,:,:) ;
+    y_sorted{class} = y_train(indicies) ;
+    
+    % Avg precision calculation formula 
+    mask = y_sorted{class} == class ;
+    cum_sum = cumsum(mask) ;
+    precisions = cum_sum .* mask ./ (1:length(y_sorted{class}))' ;
+    avg_precisions_train{class} = sum(precisions) / sum(mask) ;
+ end
 
