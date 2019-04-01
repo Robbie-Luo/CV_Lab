@@ -45,9 +45,9 @@ switch sampling_type
         % use those keypoints to detect features of those points in each
         % channel 
          if size(I,3) == 3
-            [~, descriptors_r] = vl_covdet(I(:,:, 1), 'Step', step, 'Size', size_sift, 'Frames', frames) ;
-            [~, descriptors_g] = vl_covdet(I(:,:, 2), 'Step', step, 'Size', size_sift, 'Frames', frames) ;
-            [~, descriptors_b] = vl_covdet(I(:,:, 3), 'Step', step, 'Size', size_sift, 'Frames', frames) ;
+            [~, descriptors_r] = vl_covdet(I(:,:, 1), 'Frames', frames) ;
+            [~, descriptors_g] = vl_covdet(I(:,:, 2), 'Frames', frames) ;
+            [~, descriptors_b] = vl_covdet(I(:,:, 3), 'Frames', frames) ;
             result_descriptors = [descriptors_r, descriptors_g, descriptors_b] ;   
         elseif size(I, 3) == 1 
             [~, descriptors_single] = vl_dsift(I(:,:,1), 'Step', step, 'Size', size_sift) ;

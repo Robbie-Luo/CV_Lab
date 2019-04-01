@@ -29,7 +29,7 @@ for i = 1:size(ImageSet,1)
     % Concatenate the descriptors from three channels.
     
     colour_space = 'rgb' ;
-    sampling_type = 'dense' ;
+    sampling_type = 'keypoints' ;
 
     descriptors_image = extract_descriptors(I, colour_space, sampling_type) ; 
     

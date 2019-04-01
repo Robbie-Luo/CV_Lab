@@ -22,8 +22,6 @@ count=0;
 %     end
 % end
 
-
-
 % for image_index = 1:size(testx,1)
 %     img_descriptor = RGB_SIFT(testx(image_index,:,:,:));
 %     [~,idx_test] = pdist2(centroids,double(img_descriptor'),'euclidean','Smallest',1);
