@@ -73,8 +73,8 @@ net.layers{end+1} = struct('type', 'relu') ;
 %% TODO: Define the structure here, so that the network outputs 5-class rather than 10 (as in the pretrained network)
 % Block 5
 
-% NEW_INPUT_SIZE  = X
-% NEW_OUTPUT_SIZE = Y
+NEW_INPUT_SIZE  = 64;
+NEW_OUTPUT_SIZE = 5;
 
 net.layers{end+1} = struct('type', 'conv', ...
                            'weights', {{0.05*randn(1,1,NEW_INPUT_SIZE,NEW_OUTPUT_SIZE, 'single'), zeros(1,NEW_OUTPUT_SIZE,'single')}}, ...

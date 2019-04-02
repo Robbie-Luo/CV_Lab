@@ -2,8 +2,7 @@ function [net, info, expdir] = finetune_cnn(varargin)
 
 %% Define options
 run(fullfile(fileparts(mfilename('fullpath')), ...
-  '..', '..', '..', 'matlab', 'vl_setupnn.m')) ;
-
+  'matconvnet-1.0-beta25', 'matlab', 'vl_setupnn.m')) ;
 opts.modelType = 'lenet' ;
 [opts, varargin] = vl_argparse(opts, varargin) ;
 
@@ -85,7 +84,37 @@ splits = {'train', 'test'};
 %% TODO: Implement your loop here, to create the data structure described in the assignment
 %% Use train.mat and test.mat we provided from STL-10 to fill in necessary data members for training below
 %% You will need to, in a loop function,  1) read the image, 2) resize the image to (32,32,3), 3) read the label of that image
-
+data=[];
+labels=[];
+sets=[];
+load('data/train.mat');
+for i=1:size(X,1)
+    %Select images that are in the classes set
+    class=string(class_names(y(i)))+'s';
+    res = find(classes==class);
+    if(res) 
+        %resize the image to (32,32,3)
+        I=reshape(X(i,:),96,96,3);
+        I2=imresize(I,[32 32]);
+        data(:,:,:,end+1)=I2;
+        labels(end+1)=res;
+        sets(end+1)=1;
+    end    
+end
+load('data/test.mat');
+for i=1:size(X,1)
+    %Select images that are in the classes set
+    class=string(class_names(y(i)))+'s';
+    res = find(classes==class);
+    if(res) 
+        %resize the image to (32,32,3)
+        I=reshape(X(i,:),96,96,3);
+        I2=imresize(I,[32 32]);
+        data(:,:,:,end+1)=I2;
+        labels(end+1)=res;
+        sets(end+1)=2;
+    end    
+end
 %%
 % subtract mean
 dataMean = mean(data(:, :, :, sets == 1), 4);
