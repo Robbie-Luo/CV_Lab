@@ -1,0 +1,3 @@
+# Ignore files with .mat extension. CODE ONLY in .m extension
+
+*.mat
