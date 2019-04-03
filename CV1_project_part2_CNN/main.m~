@@ -1,5 +1,5 @@
 %% main function 
-addpath 'liblinear-2.1/matlab';
+
 
 %% fine-tune cnn
 
@@ -13,5 +13,6 @@ nets.pre_trained = load(fullfile('data', 'pre_trained_model.mat')); nets.pre_tra
 data = load(fullfile(expdir, 'imdb-stl.mat'));
 data.images.set=single(data.images.set);
 data.images.labels=single(data.images.labels);
+disp(data)
 %%
 train_svm(nets, data);

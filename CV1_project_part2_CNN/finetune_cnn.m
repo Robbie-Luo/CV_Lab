@@ -1,4 +1,4 @@
-function [net, info, expdir] = finetune_cnn(varargin)
+ function [net, info, expdir] = finetune_cnn(varargin)
 
 %% Define options
 run(fullfile(fileparts(mfilename('fullpath')), ...
@@ -16,10 +16,11 @@ opts.whitenData = true ;
 opts.contrastNormalization = true ;
 opts.networkType = 'simplenn' ;
 opts.train = struct() ;
+
 opts = vl_argparse(opts, varargin) ;
 if ~isfield(opts.train, 'gpus'), opts.train.gpus = []; end;
+opts.train.gpus = [];
 
-opts.train.gpus = [0];
 
 
 
@@ -96,25 +97,28 @@ for i=1:size(X,1)
         %resize the image to (32,32,3)
         I=reshape(X(i,:),96,96,3);
         I2=imresize(I,[32 32]);
-        data(:,:,:,end+1)=I2;
+        data=cat(4,data,I2);
         labels(end+1)=res;
         sets(end+1)=1;
     end    
 end
 load('data/test.mat');
 for i=1:size(X,1)
-    %Select images that are in the classes set
+    %Select images that belongs to the classes set
     class=string(class_names(y(i)))+'s';
     res = find(classes==class);
     if(res) 
         %resize the image to (32,32,3)
         I=reshape(X(i,:),96,96,3);
         I2=imresize(I,[32 32]);
-        data(:,:,:,end+1)=I2;
+        data=cat(4,data,I2);
         labels(end+1)=res;
         sets(end+1)=2;
     end    
 end
+data=single(data);
+labels=single(labels);
+sets=single(sets);
 %%
 % subtract mean
 dataMean = mean(data(:, :, :, sets == 1), 4);
