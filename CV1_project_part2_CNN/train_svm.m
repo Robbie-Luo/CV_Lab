@@ -1,4 +1,4 @@
-function train_svm(nets, data)
+function [svm]=train_svm(nets, data)
 
 %% replace loss with the classification as we will extract features
 nets.pre_trained.layers{end}.type = 'softmax';
