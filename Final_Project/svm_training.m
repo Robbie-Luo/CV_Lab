@@ -29,9 +29,10 @@ for class_index = 2:5
 end
 
 
-classifier = fitcsvm(cat(1,related_class_histogram,unrelated_class_histogram),cat(2,related_class_y,unrelated_class_y),'KernelFunction', 'rbf');
+classifier = fitcsvm(cat(1,related_class_histogram,unrelated_class_histogram),cat(2,related_class_y,unrelated_class_y),'KernelFunction', 'rbf', 'Cost',[0,1;4,0]);
+%fitcnb(cat(1,related_class_histogram,unrelated_class_histogram),cat(2,related_class_y,unrelated_class_y));
 
-
+% fitcsvm
 % count=0;
 % for i=1:200
 %     if predict(classifier,svm_subset_histogram(i,:)) == 1

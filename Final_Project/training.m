@@ -10,15 +10,15 @@ trainy = data_y.trainy;
 % Set up global variables.
 subset_size = 100;
 class = [1,2,3,7,9];
-clusters = 600;
 MaxIteration = 20000;
 
 % Take subset of training images and extract their SIFT descriptors.
 [subset_x,subset_y,svm_subset_x,svm_subset_y] = split_training_dataset(trainx,trainy,class,subset_size);
 
 % Extract SIFT descripters from subset images
-descriptors = RGB_SIFT(subset_x);
+descriptors = RGB_DSIFT(subset_x);
 
+clusters = 170;
 % Perform K-means clustering.
 [points,centroids]=kmeans(double(descriptors'),clusters, 'MaxIter',MaxIteration);
 visual_vocabulary = centroids;

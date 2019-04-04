@@ -1,4 +1,4 @@
-function [descriptors]=RGB_SIFT(ImageSet)
+function [descriptors]=RGB_DSIFT(ImageSet)
 % Input: set of images. For example trainx = [2500,96,96,3].
 %        2500 means 2500 images. 96,96 are the width and height of each
 %        image. 3 means each image has three channels.
@@ -17,16 +17,13 @@ descriptors = [];
 % channel separately and concatenated.
 for i = 1:size(ImageSet,1)
     I = single(rgb2gray(squeeze(ImageSet(i,:,:,:))));
-    [f,d] = vl_sift(I);
+%     [f,d] = vl_sift(I);
     
     % Extract descriptors form each channel seperately.      
-    R = single(squeeze(ImageSet(i,:,:,1)));
-    G = single(squeeze(ImageSet(i,:,:,2)));
-    B = single(squeeze(ImageSet(i,:,:,3)));
-    [R_frames,R_discriptor] = vl_sift(R, 'frames', f);
-    [G_frames,G_discriptor] = vl_sift(G, 'frames', f);
-    [B_frames,B_discriptor] = vl_sift(B, 'frames', f);
+   [R_frames,d] = vl_dsift(I, 'Step', 2, 'Size', 30);
+    
+  
     
     % Concatenate the descriptors from three channels.     
-    descriptors = cat(2,descriptors,R_discriptor,G_discriptor,B_discriptor);
+    descriptors = cat(2,descriptors,d);%,R_discriptor,G_discriptor,B_discriptor);
 end
