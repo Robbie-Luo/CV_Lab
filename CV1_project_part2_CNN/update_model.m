@@ -8,17 +8,17 @@ opts = vl_argparse(opts, varargin) ;
 % lr_prev_layers = [0.2, 2];
 % lr_new_layers  = [1, 4]; 
 
-lr_prev_layers = [0.01, 0.1];
-lr_new_layers  = [0.05, 0.2]; 
+lr_prev_layers = [0.02, 0.1];
+lr_new_layers  = [0.1, 0.2]; 
 
 lr = lr_prev_layers ;
 
 % Meta parameters
 net.meta.inputSize = [32 32 3] ;
-net.meta.trainOpts.learningRate = [ 0.05*ones(1,40)...
-                                    0.005*ones(1,40)
+net.meta.trainOpts.learningRate = [ 0.05*ones(1,30)...
+                                    0.005*ones(1,10)...                             
                                     ] ;
-net.meta.trainOpts.weightDecay = 0.001 ;
+net.meta.trainOpts.weightDecay = 0.01 ;
 net.meta.trainOpts.batchSize = 50 ;
 net.meta.trainOpts.numEpochs = numel(net.meta.trainOpts.learningRate) ;
 
