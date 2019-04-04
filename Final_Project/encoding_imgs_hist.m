@@ -3,9 +3,25 @@ function [svm_subset_histogram]= encoding_imgs_hist(centroids,svm_subset_x,clust
 %  Representing images by frequencies of visual words
 svm_subset_histogram = zeros(size(svm_subset_x,1),clusters);
 
-for image_index = 1:size(svm_subset_x,1)
-    img_descriptor = RGB_DSIFT(svm_subset_x(image_index,:,:,:));
-    [~,idx_test] = pdist2(centroids,double(img_descriptor'),'euclidean','Smallest',1);
-    histogram = normalize(hist(idx_test,clusters),'range');
-    svm_subset_histogram(image_index,:) = histogram;
+for i = 1:size(svm_subset_x,1)
+    
+    d = RGB_DSIFT(svm_subset_x(i,:,:,:));
+    d = d';
+    [num, ~] = size(d);
+    histo = zeros(clusters, 1);
+    for s = 1:num
+        closest = -1;
+        closest_distance = Inf;
+        for v = 1:clusters
+            distance = norm(centroids(v,:) - double(d(s,:)));
+            if distance < closest_distance
+                closest = v;
+                closest_distance = distance;
+            end
+        end
+        histo(closest, 1) = histo(closest, 1) +1;
+    end
+
+    
+    svm_subset_histogram(i,:) = histo/sum(histo, 'all');
 end

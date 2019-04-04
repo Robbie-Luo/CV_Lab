@@ -17,15 +17,17 @@ descriptors = [];
 % channel separately and concatenated.
 for i = 1:size(ImageSet,1)
 %     [f,d] = vl_sift(I);
-    R = single(squeeze(ImageSet(i,:,:,1)));
-    G = single(squeeze(ImageSet(i,:,:,2)));
-    B = single(squeeze(ImageSet(i,:,:,3)));
+    I = single(rgb2gray(squeeze(ImageSet(i,:,:,:))));
+    
+%     R = single(squeeze(ImageSet(i,:,:,1)));
+%     G = single(squeeze(ImageSet(i,:,:,2)));
+%     B = single(squeeze(ImageSet(i,:,:,3)));
     % Extract descriptors form each channel seperately.      
-   [R_frames,R_discriptor] = vl_dsift(R, 'Step', 5, 'Size', 21);
-   [G_frames,G_discriptor] = vl_dsift(G, 'Step', 5, 'Size', 21);
-   [B_frames,B_discriptor] = vl_dsift(B, 'Step', 5, 'Size', 21);
+   [R_frames,R_discriptor] = vl_dsift(I, 'Step', 5, 'Size', 21);
+%    [G_frames,G_discriptor] = vl_dsift(G, 'Step', 5, 'Size', 21);
+%    [B_frames,B_discriptor] = vl_dsift(B, 'Step', 5, 'Size', 21);
   
     
     % Concatenate the descriptors from three channels.     
-    descriptors = cat(2,descriptors,R_discriptor,G_discriptor,B_discriptor);
+    descriptors = cat(2,descriptors,R_discriptor);%,G_discriptor,B_discriptor);
 end

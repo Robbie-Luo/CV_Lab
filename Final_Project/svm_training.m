@@ -1,7 +1,7 @@
 function [classifier] = svm_training(class,svm_subset_histogram,svm_subset_y,clusters)
 % Train a SVM classifier for classification.
 related_class_size = 400;
-unrelated_class_size = 100;
+unrelated_class_size = 400;
 
 related_class_histogram=zeros(related_class_size,clusters);
 related_class_y=zeros(1,related_class_size);
@@ -29,7 +29,7 @@ for class_index = 2:5
 end
 
 
-classifier = fitcsvm(cat(1,related_class_histogram,unrelated_class_histogram),cat(2,related_class_y,unrelated_class_y),'KernelFunction', 'rbf');
+classifier = fitcsvm(cat(1,related_class_histogram,unrelated_class_histogram),cat(2,related_class_y,unrelated_class_y),'KernelFunction', 'rbf', 'Cost',[0,1;4,0]);
 %fitcnb(cat(1,related_class_histogram,unrelated_class_histogram),cat(2,related_class_y,unrelated_class_y));
 
 % fitcsvm

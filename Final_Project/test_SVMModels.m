@@ -32,7 +32,6 @@ count=0;
 %     test_score(1) = score(2);
 
 X_test_hist = encoding_imgs_hist(centroids,testx,clusters);
-path = "./final_pics/" ;
 
 % Evaluate for each class 
 class_preds = {} ;
@@ -58,22 +57,4 @@ for i=1:size(classes, 2)
     cum_sum = cumsum(mask) ;
     precisions = cum_sum .* mask ./ (1:length(y_sorted{class})) ;
     avg_precisions{class} = sum(precisions) / sum(mask) ;
-    
-    [~, indicies] = sort(eval_scores{class}(:, 1)) ;
-    imgs_sorted{class} = testx(indicies,:,:,:) ;
-    y_sorted{class} = testy(indicies) ;
-
-    figure(class)
-    top_imgs = [imgs_sorted{class}(1,:,:,:), imgs_sorted{class}(2,:,:,:), imgs_sorted{class}(3,:,:,:), imgs_sorted{class}(4,:,:,:), imgs_sorted{class}(5,:,:,:)] ;
-%     imshow(reshape(top_imgs, 480, 96, 3)) ; 
-    pic_name = path + "top_" + num2str(class) + ".png";
-    imwrite(reshape(top_imgs, 480, 96, 3), pic_name);
-
-    figure(class*2)
-    bottom_imgs= [imgs_sorted{class}(end - 4,:,:,:), imgs_sorted{class}(end - 3,:,:,:), imgs_sorted{class}(end - 2,:,:,:), imgs_sorted{class}(end - 1,:,:,:), imgs_sorted{class}(end,:,:,:)] ;
-%     imshow(reshape(bottom_imgs, 480, 96, 3)) ;    
-    pic_name = path + "bottom_" + num2str(class) + ".png";
-    imwrite(reshape(bottom_imgs, 480, 96, 3), pic_name);
-    
-    
 end
