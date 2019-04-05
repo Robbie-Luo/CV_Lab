@@ -1,4 +1,4 @@
-function [classifier] = svm_training(class,svm_subset_histogram,svm_subset_y,clusters)
+function [classifier] = svm_training(class,svm_subset_histogram,svm_subset_y,clusters,classification_method)
 % Train a SVM classifier for classification.
 related_class_size = 400;
 unrelated_class_size = 400;
@@ -28,18 +28,14 @@ for class_index = 2:5
     end
 end
 
+% choose a classification method.
+switch classification_method
+    case "svm"
+        classifier = fitcsvm(cat(1,related_class_histogram,unrelated_class_histogram),cat(2,related_class_y,unrelated_class_y),'KernelFunction', 'rbf', 'Cost',[0,1;4,0]);
+    case "knn"
+        classifier = fitcknn(cat(1,related_class_histogram,unrelated_class_histogram),cat(2,related_class_y,unrelated_class_y),'NumNeighbors',10,'Standardize',1);
+end
 
-classifier = fitcsvm(cat(1,related_class_histogram,unrelated_class_histogram),cat(2,related_class_y,unrelated_class_y),'KernelFunction', 'rbf', 'Cost',[0,1;4,0]);
-%fitcnb(cat(1,related_class_histogram,unrelated_class_histogram),cat(2,related_class_y,unrelated_class_y));
-
-% fitcsvm
-% count=0;
-% for i=1:200
-%     if predict(classifier,svm_subset_histogram(i,:)) == 1
-%         count= count+1;
-%     end
-% end
-% count
 end
             
             

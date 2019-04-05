@@ -1,4 +1,4 @@
-function [avg_precisions,class_preds] = test_SVMModels(class,SVMModel,centroids,testx,testy,clusters)
+function [avg_precisions,class_preds] = test_SVMModels(class,SVMModel,centroids,testx,testy,clusters,sampling_method,img_type)
 
 count=0;
 % for image_index = 1:size(testx,1)
@@ -31,7 +31,7 @@ count=0;
 %     [~,score] = predict(SVMModel{1},histogram);
 %     test_score(1) = score(2);
 
-X_test_hist = encoding_imgs_hist(centroids,testx,clusters);
+X_test_hist = encoding_imgs_hist(centroids,testx,clusters,sampling_method,img_type);
 
 % Evaluate for each class 
 class_preds = {} ;
